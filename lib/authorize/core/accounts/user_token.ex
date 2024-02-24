@@ -1,7 +1,7 @@
-defmodule Authorize.Accounts.UserToken do
+defmodule Authorize.Core.Accounts.UserToken do
   use Ecto.Schema
   import Ecto.Query
-  alias Authorize.Accounts.UserToken
+  alias Authorize.Core.Accounts.UserToken
 
   @hash_algorithm :sha256
   @rand_size 32
@@ -19,7 +19,7 @@ defmodule Authorize.Accounts.UserToken do
     field :token, :binary
     field :context, :string
     field :sent_to, :string
-    belongs_to :user, Authorize.Accounts.User
+    belongs_to :user, Authorize.Core.Accounts.User
 
     timestamps(updated_at: false)
   end

@@ -2,9 +2,9 @@ defmodule AuthorizeWeb.Access.UserResetPasswordLiveTest do
   use AuthorizeWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
-  import Authorize.AccountsFixtures
+  import Authorize.Core.AccountsFixtures
 
-  alias Authorize.Accounts
+  alias Authorize.Core.Accounts
 
   setup do
     user = user_fixture()

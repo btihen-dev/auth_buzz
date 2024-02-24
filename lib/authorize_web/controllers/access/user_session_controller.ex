@@ -1,7 +1,7 @@
 defmodule AuthorizeWeb.Access.UserSessionController do
   use AuthorizeWeb, :controller
 
-  alias Authorize.Accounts
+  alias Authorize.Core.Accounts
   alias AuthorizeWeb.Access.UserAuth
 
   def create(conn, %{"_action" => "registered"} = params) do

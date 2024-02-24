@@ -1,8 +1,8 @@
 defmodule AuthorizeWeb.Access.UserRegistrationLive do
   use AuthorizeWeb, :live_view
 
-  alias Authorize.Accounts
-  alias Authorize.Accounts.User
+  alias Authorize.Core.Accounts
+  alias Authorize.Core.Accounts.User
 
   def render(assigns) do
     ~H"""

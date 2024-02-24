@@ -2,9 +2,9 @@ defmodule AuthorizeWeb.Access.UserForgotPasswordLiveTest do
   use AuthorizeWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
-  import Authorize.AccountsFixtures
+  import Authorize.Core.AccountsFixtures
 
-  alias Authorize.Accounts
+  alias Authorize.Core.Accounts
   alias Authorize.Repo
 
   describe "Forgot password page" do

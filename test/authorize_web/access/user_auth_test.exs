@@ -2,9 +2,9 @@ defmodule AuthorizeWeb.Access.UserAuthTest do
   use AuthorizeWeb.ConnCase, async: true
 
   alias Phoenix.LiveView
-  alias Authorize.Accounts
+  alias Authorize.Core.Accounts
   alias AuthorizeWeb.Access.UserAuth
-  import Authorize.AccountsFixtures
+  import Authorize.Core.AccountsFixtures
 
   @remember_me_cookie "_authorize_web_user_remember_me"
 

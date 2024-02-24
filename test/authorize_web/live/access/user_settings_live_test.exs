@@ -1,9 +1,9 @@
 defmodule AuthorizeWeb.Access.UserSettingsLiveTest do
   use AuthorizeWeb.ConnCase, async: true
 
-  alias Authorize.Accounts
+  alias Authorize.Core.Accounts
   import Phoenix.LiveViewTest
-  import Authorize.AccountsFixtures
+  import Authorize.Core.AccountsFixtures
 
   describe "Settings page" do
     test "renders settings page", %{conn: conn} do

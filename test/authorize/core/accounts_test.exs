@@ -1,10 +1,10 @@
-defmodule Authorize.AccountsTest do
+defmodule Authorize.Core.AccountsTest do
   use Authorize.DataCase
 
-  alias Authorize.Accounts
+  alias Authorize.Core.Accounts
 
-  import Authorize.AccountsFixtures
-  alias Authorize.Accounts.{User, UserToken}
+  import Authorize.Core.AccountsFixtures
+  alias Authorize.Core.Accounts.{User, UserToken}
 
   describe "get_user_by_email/1" do
     test "does not return the user if the email does not exist" do

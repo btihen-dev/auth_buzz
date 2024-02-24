@@ -1,7 +1,7 @@
 defmodule AuthorizeWeb.Access.UserConfirmationLive do
   use AuthorizeWeb, :live_view
 
-  alias Authorize.Accounts
+  alias Authorize.Core.Accounts
 
   def render(%{live_action: :edit} = assigns) do
     ~H"""

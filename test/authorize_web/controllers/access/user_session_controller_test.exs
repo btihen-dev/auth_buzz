@@ -1,7 +1,7 @@
 defmodule AuthorizeWeb.Access.UserSessionControllerTest do
   use AuthorizeWeb.ConnCase, async: true
 
-  import Authorize.AccountsFixtures
+  import Authorize.Core.AccountsFixtures
 
   setup do
     %{user: user_fixture()}

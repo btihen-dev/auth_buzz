@@ -1,4 +1,4 @@
-defmodule Authorize.Accounts do
+defmodule Authorize.Core.Accounts do
   @moduledoc """
   The Accounts context.
   """
@@ -6,7 +6,7 @@ defmodule Authorize.Accounts do
   import Ecto.Query, warn: false
   alias Authorize.Repo
 
-  alias Authorize.Accounts.{User, UserToken, UserNotifier}
+  alias Authorize.Core.Accounts.{User, UserToken, UserNotifier}
 
   ## Database getters
 

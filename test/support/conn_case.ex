@@ -45,7 +45,7 @@ defmodule AuthorizeWeb.ConnCase do
   test context.
   """
   def register_and_log_in_user(%{conn: conn}) do
-    user = Authorize.AccountsFixtures.user_fixture()
+    user = Authorize.Core.AccountsFixtures.user_fixture()
     %{conn: log_in_user(conn, user), user: user}
   end
 
@@ -55,7 +55,7 @@ defmodule AuthorizeWeb.ConnCase do
   It returns an updated `conn`.
   """
   def log_in_user(conn, user) do
-    token = Authorize.Accounts.generate_user_session_token(user)
+    token = Authorize.Core.Accounts.generate_user_session_token(user)
 
     conn
     |> Phoenix.ConnTest.init_test_session(%{})

@@ -1,7 +1,7 @@
 defmodule AuthorizeWeb.Access.UserForgotPasswordLive do
   use AuthorizeWeb, :live_view
 
-  alias Authorize.Accounts
+  alias Authorize.Core.Accounts
 
   def render(assigns) do
     ~H"""

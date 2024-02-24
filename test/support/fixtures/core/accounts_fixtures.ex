@@ -1,7 +1,7 @@
-defmodule Authorize.AccountsFixtures do
+defmodule Authorize.Core.AccountsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Authorize.Accounts` context.
+  entities via the `Authorize.Core.Accounts` context.
   """
 
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
@@ -18,7 +18,7 @@ defmodule Authorize.AccountsFixtures do
     {:ok, user} =
       attrs
       |> valid_user_attributes()
-      |> Authorize.Accounts.register_user()
+      |> Authorize.Core.Accounts.register_user()
 
     user
   end

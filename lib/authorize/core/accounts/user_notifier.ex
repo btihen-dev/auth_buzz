@@ -1,4 +1,4 @@
-defmodule Authorize.Accounts.UserNotifier do
+defmodule Authorize.Core.Accounts.UserNotifier do
   import Swoosh.Email
 
   alias Authorize.Mailer

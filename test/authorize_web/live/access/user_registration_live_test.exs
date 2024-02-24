@@ -2,7 +2,7 @@ defmodule AuthorizeWeb.Access.UserRegistrationLiveTest do
   use AuthorizeWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
-  import Authorize.AccountsFixtures
+  import Authorize.Core.AccountsFixtures
 
   describe "Registration page" do
     test "renders registration page", %{conn: conn} do
