@@ -82,4 +82,51 @@ defmodule AuthorizeWeb.Router do
       live "/users/confirm", UserConfirmationInstructionsLive, :new
     end
   end
+
+  ## Admin Routes
+
+  # page available to everyone
+  # scope "/admin", AuthorizeWeb.Admin do
+  #   pipe_through [:browser]
+  #   live("/accounts", AccountsLive, :index)
+  # end
+
+  # must be logge in - checked via route plugs only (no live session created)
+  # scope "/admin", AuthorizeWeb.Admin do
+  #   pipe_through [:browser, :require_authenticated_user]
+  #   live("/accounts", AccountsLive, :index)
+  # end
+
+  # must be logge in - checked via route plugs only (with a named live session)
+  # scope "/admin", AuthorizeWeb.Admin do
+  #   pipe_through [:browser, :require_authenticated_user]
+  #   # session name `:admin_live` is unimportant, but must be unique
+  #   live_session :admin_live do
+  #     live("/accounts", AccountsLive, :index)
+  #   end
+  # end
+
+  # must be logged in and protected via route and liveview session
+  # scope "/admin", AuthorizeWeb.Admin, as: :admin do
+  #   pipe_through [:browser, :require_authenticated_user]
+  #   live_session :admin_live,
+  #     on_mount: [{AuthorizeWeb.Access.UserAuth, :ensure_authenticated}] do
+  #     live("/accounts", AccountsLive, :index)
+  #     # Add other live routes here that require the same authentication
+  #   end
+  # end
+
+  # must be logged in and authorized as an admin - protected via routes and livesession
+  scope "/admin", AuthorizeWeb.Admin, as: :admin do
+    pipe_through [:browser, :require_authenticated_user, :require_admin_user]
+
+    live_session :admin_live,
+      on_mount: [
+        {AuthorizeWeb.Access.UserAuth, :ensure_authenticated},
+        {AuthorizeWeb.Access.UserAuth, :ensure_admin}
+      ] do
+      live("/accounts", AccountsLive, :index)
+      # Add other live routes here that require the same authentication
+    end
+  end
 end

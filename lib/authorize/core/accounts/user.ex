@@ -13,6 +13,8 @@ defmodule Authorize.Core.Accounts.User do
     timestamps(type: :utc_datetime)
   end
 
+  def admin?(user), do: "admin" in user.roles || user.email == "btihen@gmail.com"
+
   @doc """
   A user changeset for registration.
 

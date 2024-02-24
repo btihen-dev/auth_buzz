@@ -162,6 +162,19 @@ defmodule AuthorizeWeb.Access.UserAuth do
     end
   end
 
+  def on_mount(:ensure_admin, _params, _session, socket) do
+    if Authorize.Core.Accounts.User.admin?(socket.assigns.current_user) do
+      {:cont, socket}
+    else
+      socket =
+        socket
+        |> Phoenix.LiveView.put_flash(:error, "You must be admin to access this page.")
+        |> Phoenix.LiveView.redirect(to: ~p"/")
+
+      {:halt, socket}
+    end
+  end
+
   def on_mount(:redirect_if_user_is_authenticated, _params, session, socket) do
     socket = mount_current_user(socket, session)
 
@@ -207,6 +220,21 @@ defmodule AuthorizeWeb.Access.UserAuth do
       |> put_flash(:error, "You must log in to access this page.")
       |> maybe_store_return_to()
       |> redirect(to: ~p"/access/users/log_in")
+      |> halt()
+    end
+  end
+
+  def require_admin_user(conn, _opts) do
+    IO.inspect(conn.assigns)
+    IO.inspect(conn.assigns.current_user)
+
+    if Authorize.Core.Accounts.User.admin?(conn.assigns.current_user) do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You must be an admin to access this page.")
+      |> maybe_store_return_to()
+      |> redirect(to: ~p"/")
       |> halt()
     end
   end
