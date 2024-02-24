@@ -9,7 +9,7 @@ import Config
 
 config :authorize,
   ecto_repos: [Authorize.Repo],
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime, binary_id: true]
 
 # Configures the endpoint
 config :authorize, AuthorizeWeb.Endpoint,
