@@ -5,8 +5,32 @@ defmodule Authorize.Core.Accounts do
 
   import Ecto.Query, warn: false
   alias Authorize.Repo
-
   alias Authorize.Core.Accounts.{User, UserToken, UserNotifier}
+
+  # unsorted
+  # def list_users(), do: Repo.all(User)
+  # users sorted by email
+  def list_users(), do: Repo.all(from u in User, order_by: [asc: u.email])
+
+  # admin management
+  def grant_admin(uuid) when is_binary(uuid), do: grant_admin(get_user!(uuid))
+  def grant_admin(%User{} = user) do
+    new_roles =
+      ["admin" | user.roles]
+      |> Enum.uniq()
+
+    user
+    |> User.admin_roles_changeset(%{roles: new_roles})
+    |> Repo.update()
+  end
+
+  def revoke_admin(uuid) when is_binary(uuid), do: revoke_admin(get_user!(uuid))
+  def revoke_admin(%User{} = user) do
+    IO.inspect user, label: "revoke user"
+    user
+    |> User.admin_roles_changeset(%{roles: user.roles -- ["admin"]})
+    |> Repo.update()
+  end
 
   ## Database getters
 
@@ -59,6 +83,8 @@ defmodule Authorize.Core.Accounts do
 
   """
   def get_user!(id), do: Repo.get!(User, id)
+  # def get_user!(id), do: Repo.get(User, id)
+  # def get_user!(uuid), do: Repo.get_by(User, id: uuid)
 
   ## User registration
 

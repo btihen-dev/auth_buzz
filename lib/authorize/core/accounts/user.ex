@@ -15,6 +15,24 @@ defmodule Authorize.Core.Accounts.User do
 
   def admin?(user), do: "admin" in user.roles || user.email == "btihen@gmail.com"
 
+  def admin_roles_changeset(user, attrs, _opts \\ []) do
+    allowed_roles = ["admin", "user"]
+
+    user
+    |> cast(attrs, [:roles])
+    |> validate_required([:roles])
+    |> validate_roles(:roles, allowed_roles)
+  end
+
+  defp validate_roles(changeset, field, allowed_roles) do
+    roles = get_field(changeset, field)
+
+    if Enum.all?(roles, fn role -> role in allowed_roles end) do
+      changeset
+    else
+      add_error(changeset, field, "has invalid roles")
+    end
+  end
   @doc """
   A user changeset for registration.
 
