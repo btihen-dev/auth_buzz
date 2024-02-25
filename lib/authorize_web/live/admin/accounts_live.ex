@@ -52,7 +52,16 @@ defmodule AuthorizeWeb.Admin.AccountsLive do
 
   @impl true
   def mount(_params, _session, socket) do
+    # Subscribe to a PubSub topic (if connected - mount happen twice -
+    # once for initial load and once to do liveView socket connection)
+    if connected?(socket), do: Accounts.subscribe("accounts:admin_updates")
+
     {:ok, assign(socket, users: Accounts.list_users())}
+  end
+
+  def handle_info({:admins_updated, users}, socket) do
+    socket = assign(socket, users: users)
+    {:noreply, socket}
   end
 
   @impl true

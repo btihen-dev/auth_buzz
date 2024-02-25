@@ -12,6 +12,15 @@ defmodule Authorize.Core.Accounts do
   # users sorted by email
   def list_users(), do: Repo.all(from u in User, order_by: [asc: u.email])
 
+  # Admin PubSub
+  def subscribe("accounts:admin_updates") do
+    Phoenix.PubSub.subscribe(Authorize.PubSub, "accounts:admin_updates")
+  end
+
+  def broadcast("accounts:admin_updates") do
+    Phoenix.PubSub.broadcast(Authorize.PubSub, "accounts:admin_updates", {:admins_updated, list_users()})
+  end
+
   # admin management
   def grant_admin(uuid) when is_binary(uuid), do: grant_admin(get_user!(uuid))
   def grant_admin(%User{} = user) do
@@ -19,17 +28,40 @@ defmodule Authorize.Core.Accounts do
       ["admin" | user.roles]
       |> Enum.uniq()
 
-    user
-    |> User.admin_roles_changeset(%{roles: new_roles})
-    |> Repo.update()
+    updated =
+      user
+      |> User.admin_roles_changeset(%{roles: new_roles})
+      |> Repo.update()
+
+    case updated do
+      {:ok, user} ->
+        # Broadcast the update
+        broadcast("accounts:admin_updates")
+        # return user
+        {:ok, user}
+
+      {:error, changeset} -> {:error, changeset}
+        # Handle error
+    end
   end
 
   def revoke_admin(uuid) when is_binary(uuid), do: revoke_admin(get_user!(uuid))
   def revoke_admin(%User{} = user) do
-    IO.inspect user, label: "revoke user"
-    user
-    |> User.admin_roles_changeset(%{roles: user.roles -- ["admin"]})
-    |> Repo.update()
+    updated =
+      user
+      |> User.admin_roles_changeset(%{roles: user.roles -- ["admin"]})
+      |> Repo.update()
+
+    case updated do
+      {:ok, user} ->
+        # Broadcast the update
+        broadcast("accounts:admin_updates")
+        # return user
+        {:ok, user}
+
+      {:error, changeset} -> {:error, changeset}
+        # Handle error
+    end
   end
 
   ## Database getters
