@@ -1,7 +1,8 @@
-defmodule AuthorizeWeb.Admin.AccountsLive do
+defmodule AuthorizeWeb.Admin.AdminRolesLive do
   use Phoenix.LiveView
   alias Authorize.Core.Accounts
   alias Authorize.Core.Accounts.User
+  alias Authorize.Admin.Authorized
 
   @impl true
   def render(assigns) do
@@ -23,7 +24,7 @@ defmodule AuthorizeWeb.Admin.AccountsLive do
               <td class="px-4 py-2"><%= user.email %></td>
             <% end %>
             <td class="px-4 py-2"><%= user.roles |> Enum.join(", ") %></td>
-            <td class="px-4 py-2">
+            <td class="px-4 py-2 text-right">
               <!-- no need to gran admin to an admin -->
               <button
                 :if={!User.admin?(user)}
@@ -35,12 +36,21 @@ defmodule AuthorizeWeb.Admin.AccountsLive do
               </button>
               <!-- don't show revoke to current user and only to those who are already admins -->
               <button
-                :if={(@current_user.id != user.id) && User.admin?(user)}
+                :if={@current_user.id != user.id && User.admin?(user)}
                 phx-click="revoke"
                 phx-value-id={user.id}
-                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
               >
                 Revoke
+              </button>
+              <button
+                :if={@current_user.id != user.id}
+                phx-click="delete"
+                phx-value-id={user.id}
+                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onclick="return confirm('Are you sure you want to delete this item?');"
+              >
+                Delete
               </button>
             </td>
           </tr>
@@ -54,11 +64,12 @@ defmodule AuthorizeWeb.Admin.AccountsLive do
   def mount(_params, _session, socket) do
     # Subscribe to a PubSub topic (if connected - mount happen twice -
     # once for initial load and once to do liveView socket connection)
-    if connected?(socket), do: Accounts.subscribe("accounts:admin_updates")
+    if connected?(socket), do: Authorized.subscribe("authorized:admin_role_updates")
 
-    {:ok, assign(socket, users: Accounts.list_users())}
+    {:ok, assign(socket, users: Authorized.list_users())}
   end
 
+  @impl true
   def handle_info({:admins_updated, users}, socket) do
     socket = assign(socket, users: users)
     {:noreply, socket}
@@ -66,13 +77,19 @@ defmodule AuthorizeWeb.Admin.AccountsLive do
 
   @impl true
   def handle_event("grant", %{"id" => id}, socket) do
-    Accounts.grant_admin(id)
-    {:noreply, assign(socket, users: Accounts.list_users())}
+    Authorized.grant_admin(id)
+    {:noreply, assign(socket, users: Authorized.list_users())}
   end
 
   @impl true
   def handle_event("revoke", %{"id" => id}, socket) do
-    Accounts.revoke_admin(id)
-    {:noreply, assign(socket, users: Accounts.list_users())}
+    Authorized.revoke_admin(id)
+    {:noreply, assign(socket, users: Authorized.list_users())}
+  end
+
+  @impl true
+  def handle_event("delete", %{"id" => id}, socket) do
+    Authorized.delete_user(id)
+    {:noreply, assign(socket, users: Authorized.list_users())}
   end
 end

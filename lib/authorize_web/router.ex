@@ -125,7 +125,7 @@ defmodule AuthorizeWeb.Router do
         {AuthorizeWeb.Access.UserAuth, :ensure_authenticated},
         {AuthorizeWeb.Access.UserAuth, :ensure_admin}
       ] do
-      live("/accounts", AccountsLive, :index)
+      live("/admin_roles", AdminRolesLive, :index)
       # Add other live routes here that require the same authentication
     end
   end
