@@ -11,6 +11,8 @@
 # and so on) as they will fail if something goes wrong.
 
 alias Authorize.Core.Accounts
+alias Authorize.Admin.Authorized
+alias Authorize.Buzz.Topics
 
 users = [
   %{email: "batman@example.com", password: "P4ssword-f0r-You"},
@@ -23,6 +25,12 @@ users = [
 Enum.map(users, fn user -> Accounts.register_user(user) end)
 
 batman = Accounts.get_user_by_email("batman@example.com")
-Accounts.grant_admin(batman)
 hulk = Accounts.get_user_by_email("hulk@example.com")
-Accounts.grant_admin(hulk)
+Authorized.grant_admin(batman)
+Authorized.grant_admin(hulk)
+
+topics = [
+  %{title: "cats"},
+  %{title: "dogs"}
+]
+Enum.map(topics, fn topic -> Topics.create_topic(topic) end)

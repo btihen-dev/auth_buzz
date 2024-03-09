@@ -8,7 +8,7 @@ defmodule Authorize.Buzz.TopicsTest do
 
     import Authorize.Buzz.TopicsFixtures
 
-    @invalid_attrs %{name: nil}
+    @invalid_attrs %{title: nil}
 
     test "list_topics/0 returns all topics" do
       topic = topic_fixture()
@@ -21,10 +21,10 @@ defmodule Authorize.Buzz.TopicsTest do
     end
 
     test "create_topic/1 with valid data creates a topic" do
-      valid_attrs = %{name: "some name"}
+      valid_attrs = %{title: "some title"}
 
       assert {:ok, %Topic{} = topic} = Topics.create_topic(valid_attrs)
-      assert topic.name == "some name"
+      assert topic.title == "some title"
     end
 
     test "create_topic/1 with invalid data returns error changeset" do
@@ -33,10 +33,10 @@ defmodule Authorize.Buzz.TopicsTest do
 
     test "update_topic/2 with valid data updates the topic" do
       topic = topic_fixture()
-      update_attrs = %{name: "some updated name"}
+      update_attrs = %{title: "some updated title"}
 
       assert {:ok, %Topic{} = topic} = Topics.update_topic(topic, update_attrs)
-      assert topic.name == "some updated name"
+      assert topic.title == "some updated title"
     end
 
     test "update_topic/2 with invalid data returns error changeset" do

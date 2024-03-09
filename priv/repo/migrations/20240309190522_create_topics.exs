@@ -4,7 +4,7 @@ defmodule Authorize.Repo.Migrations.CreateTopics do
   def change do
     create table(:topics, primary_key: false) do
       add :id, :binary_id, primary_key: true
-      add :name, :string
+      add :title, :string
 
       timestamps(type: :utc_datetime)
     end

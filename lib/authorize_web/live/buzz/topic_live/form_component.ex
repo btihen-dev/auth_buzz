@@ -19,7 +19,7 @@ defmodule AuthorizeWeb.Buzz.TopicLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:name]} type="text" label="Name" />
+        <.input field={@form[:title]} type="text" label="Title" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Topic</.button>
         </:actions>

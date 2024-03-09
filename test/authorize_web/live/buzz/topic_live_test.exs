@@ -4,9 +4,9 @@ defmodule AuthorizeWeb.Buzz.TopicLiveTest do
   import Phoenix.LiveViewTest
   import Authorize.Buzz.TopicsFixtures
 
-  @create_attrs %{name: "some name"}
-  @update_attrs %{name: "some updated name"}
-  @invalid_attrs %{name: nil}
+  @create_attrs %{title: "some title"}
+  @update_attrs %{title: "some updated title"}
+  @invalid_attrs %{title: nil}
 
   defp create_topic(_) do
     topic = topic_fixture()
@@ -20,7 +20,7 @@ defmodule AuthorizeWeb.Buzz.TopicLiveTest do
       {:ok, _index_live, html} = live(conn, ~p"/buzz/topics")
 
       assert html =~ "Listing Topics"
-      assert html =~ topic.name
+      assert html =~ topic.title
     end
 
     test "saves new topic", %{conn: conn} do
@@ -43,7 +43,7 @@ defmodule AuthorizeWeb.Buzz.TopicLiveTest do
 
       html = render(index_live)
       assert html =~ "Topic created successfully"
-      assert html =~ "some name"
+      assert html =~ "some title"
     end
 
     test "updates topic in listing", %{conn: conn, topic: topic} do
@@ -66,7 +66,7 @@ defmodule AuthorizeWeb.Buzz.TopicLiveTest do
 
       html = render(index_live)
       assert html =~ "Topic updated successfully"
-      assert html =~ "some updated name"
+      assert html =~ "some updated title"
     end
 
     test "deletes topic in listing", %{conn: conn, topic: topic} do
@@ -84,7 +84,7 @@ defmodule AuthorizeWeb.Buzz.TopicLiveTest do
       {:ok, _show_live, html} = live(conn, ~p"/buzz/topics/#{topic}")
 
       assert html =~ "Show Topic"
-      assert html =~ topic.name
+      assert html =~ topic.title
     end
 
     test "updates topic within modal", %{conn: conn, topic: topic} do
@@ -107,7 +107,7 @@ defmodule AuthorizeWeb.Buzz.TopicLiveTest do
 
       html = render(show_live)
       assert html =~ "Topic updated successfully"
-      assert html =~ "some updated name"
+      assert html =~ "some updated title"
     end
   end
 end

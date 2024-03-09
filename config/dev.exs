@@ -2,8 +2,9 @@ import Config
 
 # Configure your database
 config :authorize, Authorize.Repo,
-  username: "postgres",
-  password: "postgres",
+  # username: "postgres",
+  # password: "postgres",
+  username: "btihen",
   hostname: "localhost",
   database: "authorize_dev",
   stacktrace: true,

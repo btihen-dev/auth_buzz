@@ -5,7 +5,7 @@ defmodule Authorize.Buzz.Topics.Topic do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "topics" do
-    field :name, :string
+    field :title, :string
 
     timestamps(type: :utc_datetime)
   end
@@ -13,7 +13,7 @@ defmodule Authorize.Buzz.Topics.Topic do
   @doc false
   def changeset(topic, attrs) do
     topic
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
+    |> cast(attrs, [:title])
+    |> validate_required([:title])
   end
 end

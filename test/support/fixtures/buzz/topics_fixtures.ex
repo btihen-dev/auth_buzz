@@ -11,7 +11,7 @@ defmodule Authorize.Buzz.TopicsFixtures do
     {:ok, topic} =
       attrs
       |> Enum.into(%{
-        name: "some name"
+        title: "some title"
       })
       |> Authorize.Buzz.Topics.create_topic()
 
