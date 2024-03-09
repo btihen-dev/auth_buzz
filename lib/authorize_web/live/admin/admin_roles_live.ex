@@ -1,8 +1,8 @@
 defmodule AuthorizeWeb.Admin.AdminRolesLive do
   use Phoenix.LiveView
-  alias Authorize.Core.Accounts
-  alias Authorize.Core.Accounts.User
+
   alias Authorize.Admin.Authorized
+  alias Authorize.Core.Accounts.User
 
   @impl true
   def render(assigns) do
