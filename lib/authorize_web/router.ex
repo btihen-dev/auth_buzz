@@ -129,4 +129,15 @@ defmodule AuthorizeWeb.Router do
       # Add other live routes here that require the same authentication
     end
   end
+
+  scope "/buzz", AuthorizeWeb.Buzz, as: :buzz do
+    pipe_through :browser
+
+    live "/topics", TopicLive.Index, :index
+    live "/topics/new", TopicLive.Index, :new
+    live "/topics/:id/edit", TopicLive.Index, :edit
+
+    live "/topics/:id", TopicLive.Show, :show
+    live "/topics/:id/show/edit", TopicLive.Show, :edit
+  end
 end
