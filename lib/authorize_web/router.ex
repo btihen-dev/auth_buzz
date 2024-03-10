@@ -127,6 +127,13 @@ defmodule AuthorizeWeb.Router do
       ] do
       live("/admin_roles", AdminRolesLive, :index)
       # Add other live routes here that require the same authentication
+
+      live "/topics", TopicLive.Index, :index
+      live "/topics/new", TopicLive.Index, :new
+      live "/topics/:id/edit", TopicLive.Index, :edit
+
+      live "/topics/:id", TopicLive.Show, :show
+      live "/topics/:id/show/edit", TopicLive.Show, :edit
     end
   end
 
@@ -139,5 +146,12 @@ defmodule AuthorizeWeb.Router do
 
     live "/topics/:id", TopicLive.Show, :show
     live "/topics/:id/show/edit", TopicLive.Show, :edit
+
+    live "/messages", MessageLive.Index, :index
+    live "/messages/new", MessageLive.Index, :new
+    live "/messages/:id/edit", MessageLive.Index, :edit
+
+    live "/messages/:id", MessageLive.Show, :show
+    live "/messages/:id/show/edit", MessageLive.Show, :edit
   end
 end

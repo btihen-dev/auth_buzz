@@ -1,0 +1,26 @@
+<.header>
+  Topic <%= @topic.id %>
+  <:subtitle>This is a topic record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/admin/topics/#{@topic}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit topic</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Title"><%= @topic.title %></:item>
+</.list>
+
+<.back navigate={~p"/admin/topics"}>Back to topics</.back>
+
+<.modal :if={@live_action == :edit} id="topic-modal" show on_cancel={JS.patch(~p"/admin/topics/#{@topic}")}>
+  <.live_component
+    module={AuthorizeWeb.Buzz.TopicLive.FormComponent}
+    id={@topic.id}
+    title={@page_title}
+    action={@live_action}
+    topic={@topic}
+    patch={~p"/admin/topics/#{@topic}"}
+  />
+</.modal>
