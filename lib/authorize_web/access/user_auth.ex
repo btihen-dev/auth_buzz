@@ -149,7 +149,7 @@ defmodule AuthorizeWeb.Access.UserAuth do
 
   def on_mount(:ensure_authenticated, _params, session, socket) do
     socket = mount_current_user(socket, session)
-
+    # IO.inspect(socket, label: "ensure_admin - assigns")
     if socket.assigns.current_user do
       {:cont, socket}
     else
@@ -163,6 +163,7 @@ defmodule AuthorizeWeb.Access.UserAuth do
   end
 
   def on_mount(:ensure_admin, _params, _session, socket) do
+    # IO.inspect(socket.assigns, label: "ensure_admin - assigns")
     if Authorize.Core.Accounts.User.admin?(socket.assigns.current_user) do
       {:cont, socket}
     else
@@ -225,9 +226,7 @@ defmodule AuthorizeWeb.Access.UserAuth do
   end
 
   def require_admin_user(conn, _opts) do
-    IO.inspect(conn.assigns)
-    IO.inspect(conn.assigns.current_user)
-
+    # sinspect(conn.assigns.current_user, label: "current_user")
     if Authorize.Core.Accounts.User.admin?(conn.assigns.current_user) do
       conn
     else

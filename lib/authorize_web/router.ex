@@ -140,12 +140,12 @@ defmodule AuthorizeWeb.Router do
   scope "/buzz", AuthorizeWeb.Buzz, as: :buzz do
     pipe_through :browser
 
-    live "/topics", TopicLive.Index, :index
-    live "/topics/new", TopicLive.Index, :new
-    live "/topics/:id/edit", TopicLive.Index, :edit
+    # live "/topics", TopicLive.Index, :index
+    # live "/topics/new", TopicLive.Index, :new
+    # live "/topics/:id/edit", TopicLive.Index, :edit
 
-    live "/topics/:id", TopicLive.Show, :show
-    live "/topics/:id/show/edit", TopicLive.Show, :edit
+    # live "/topics/:id", TopicLive.Show, :show
+    # live "/topics/:id/show/edit", TopicLive.Show, :edit
 
     live "/messages", MessageLive.Index, :index
     live "/messages/new", MessageLive.Index, :new

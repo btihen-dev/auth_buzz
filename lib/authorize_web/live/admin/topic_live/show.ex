@@ -2,9 +2,12 @@ defmodule AuthorizeWeb.Admin.TopicLive.Show do
   use AuthorizeWeb, :live_view
 
   alias Authorize.Buzz.Topics
+  alias Authorize.Admin.Authorized
 
   @impl true
   def mount(_params, _session, socket) do
+    users = Authorized.list_users()
+    socket = assign(socket, :users, users)
     {:ok, socket}
   end
 

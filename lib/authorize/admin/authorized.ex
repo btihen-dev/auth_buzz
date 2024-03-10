@@ -19,7 +19,7 @@ defmodule Authorize.Admin.Authorized do
 
   # unsorted
   # def list_users(), do: Repo.all(User)
-  def list_users(), do: Repo.all(from u in User, order_by: [asc: u.email])
+  def list_users(), do: Repo.all(from u in User, order_by: [asc: u.email]) |> Repo.preload(:topics)
 
   def delete_user(id) do
     user = Repo.get!(User, id)

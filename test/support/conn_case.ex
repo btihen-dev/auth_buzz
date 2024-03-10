@@ -32,8 +32,29 @@ defmodule AuthorizeWeb.ConnCase do
   end
 
   setup tags do
+    # Authorize.DataCase.setup_sandbox(tags)
+    # {:ok, conn: Phoenix.ConnTest.build_conn()}
+
     Authorize.DataCase.setup_sandbox(tags)
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+
+    # Start with a fresh connection
+    conn = Phoenix.ConnTest.build_conn()
+
+    # Set up the session
+
+    secret_key_base = Application.get_env(:authorize, AuthorizeWeb.Endpoint)[:secret_key_base]
+
+    session_options = [
+      store: :cookie,
+      key: "_your_app_key",
+      signing_salt: "signing_salt",
+      secret_key_base: secret_key_base
+    ]
+
+    session_plug = Plug.Session.init(session_options)
+    conn = Plug.Session.call(conn, session_plug)
+
+    {:ok, conn: conn}
   end
 
   @doc """

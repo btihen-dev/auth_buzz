@@ -1,6 +1,9 @@
 defmodule Authorize.Core.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+
+  alias Authorize.Buzz.TopicMembers.TopicMember
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "users" do
@@ -10,10 +13,13 @@ defmodule Authorize.Core.Accounts.User do
     field :confirmed_at, :naive_datetime
     field :roles, {:array, :string}, default: ["user"]
 
+    has_many :topic_members, TopicMember, foreign_key: :member_id
+    has_many :topics, through: [:topic_members, :topic]
+
     timestamps(type: :utc_datetime)
   end
 
-  def admin?(user), do: "admin" in user.roles || user.email == "btihen@gmail.com"
+  def admin?(user), do: "admin" in user.roles
 
   def admin_roles_changeset(user, attrs, _opts \\ []) do
     allowed_roles = ["admin", "user"]

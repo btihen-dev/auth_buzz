@@ -20,6 +20,13 @@ defmodule AuthorizeWeb.Admin.TopicLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:title]} type="text" label="Title" />
+        <select name="members[]" multiple id="members" class="form-control">
+          <%= for user <- @users do %>
+            <%= selected = user.id in Enum.map(@topic.members, & &1.id) %>
+            <option value={user.id} selected={selected}><%= user.email %></option>
+          <% end %>
+        </select>
+
         <:actions>
           <.button phx-disable-with="Saving...">Save Topic</.button>
         </:actions>
@@ -39,21 +46,32 @@ defmodule AuthorizeWeb.Admin.TopicLive.FormComponent do
   end
 
   @impl true
-  def handle_event("validate", %{"topic" => topic_params}, socket) do
+  def handle_event("validate",  params, socket) do
+    topic_params = Map.get(params, "topic")
+    member_ids = Map.get(params, "members") || []
+    params = Map.put(topic_params, "member_ids", member_ids)
+    IO.inspect(params, label: "handle validate params")
+
     changeset =
       socket.assigns.topic
-      |> Topics.change_topic(topic_params)
+      |> Topics.change_topic(params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign_form(socket, changeset)}
   end
 
-  def handle_event("save", %{"topic" => topic_params}, socket) do
-    save_topic(socket, socket.assigns.action, topic_params)
+  def handle_event("save", params, socket) do
+    topic_params = Map.get(params, "topic")
+    member_ids = Map.get(params, "members") || []
+    params = Map.put(topic_params, "member_ids", member_ids)
+    IO.inspect(params, label: "handle validate params")
+
+    save_topic(socket, socket.assigns.action, params)
   end
 
-  defp save_topic(socket, :edit, topic_params) do
-    case Topics.update_topic(socket.assigns.topic, topic_params) do
+  defp save_topic(socket, :edit, params) do
+    IO.inspect(params, label: "save_topic params")
+    case Topics.update_topic(socket.assigns.topic, params) do
       {:ok, topic} ->
         notify_parent({:saved, topic})
 
@@ -67,8 +85,8 @@ defmodule AuthorizeWeb.Admin.TopicLive.FormComponent do
     end
   end
 
-  defp save_topic(socket, :new, topic_params) do
-    case Topics.create_topic(topic_params) do
+  defp save_topic(socket, :new, params) do
+    case Topics.create_topic(params) do
       {:ok, topic} ->
         notify_parent({:saved, topic})
 
