@@ -3,9 +3,12 @@ defmodule AuthorizeWeb.Admin.TopicLive.Index do
 
   alias Authorize.Buzz.Topics
   alias Authorize.Buzz.Topics.Topic
+  alias Authorize.Admin.Authorized
 
   @impl true
   def mount(_params, _session, socket) do
+    users = Authorized.list_users()
+    socket = assign(socket, :users, users)
     {:ok, stream(socket, :topics, Topics.list_topics())}
   end
 

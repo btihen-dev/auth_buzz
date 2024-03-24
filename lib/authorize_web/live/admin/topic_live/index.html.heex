@@ -29,13 +29,16 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="topic-modal" show on_cancel={JS.patch(~p"/admin/topics")}>
+<.modal :if={@live_action in [:new, :edit]}
+  id="topic-modal"
+  show on_cancel={JS.patch(~p"/admin/topics")}>
   <.live_component
-    module={AuthorizeWeb.Buzz.TopicLive.FormComponent}
+    module={AuthorizeWeb.Admin.TopicLive.FormComponent}
     id={@topic.id || :new}
     title={@page_title}
     action={@live_action}
     topic={@topic}
+    users={@users}
     patch={~p"/admin/topics"}
   />
 </.modal>
