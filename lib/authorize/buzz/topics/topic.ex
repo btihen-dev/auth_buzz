@@ -2,10 +2,15 @@ defmodule Authorize.Buzz.Topics.Topic do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Authorize.Buzz.TopicMembers.TopicMember
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "topics" do
     field :title, :string
+
+    has_many :topic_members, TopicMember
+    has_many :members, through: [:topic_members, :member]
 
     timestamps(type: :utc_datetime)
   end
