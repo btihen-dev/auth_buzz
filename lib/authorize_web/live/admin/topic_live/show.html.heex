@@ -9,7 +9,17 @@
 </.header>
 
 <.list>
-  <:item title="Title"><%= @topic.title %></:item>
+  <:item title="Title">
+    <%= @topic.title %>
+  </:item>
+
+  <:item title="Members">
+    <ul>
+      <%= for member <- @topic.members do %>
+        <li><%= member.email %></li>
+      <% end %>
+    </ul>
+  </:item>
 </.list>
 
 <.back navigate={~p"/admin/topics"}>Back to topics</.back>

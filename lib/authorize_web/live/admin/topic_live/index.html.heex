@@ -12,7 +12,18 @@
   rows={@streams.topics}
   row_click={fn {_id, topic} -> JS.navigate(~p"/admin/topics/#{topic}") end}
 >
-  <:col :let={{_id, topic}} label="Title"><%= topic.title %></:col>
+  <:col :let={{_id, topic}} label="Title">
+    <%= topic.title %>
+  </:col>
+
+  <:col :let={{_id, topic}} label="Members' Emails">
+    <%=
+      topic.members
+      |> Enum.map(& &1.email)
+      |> Enum.join(", ")
+    %>
+  </:col>
+
   <:action :let={{_id, topic}}>
     <div class="sr-only">
       <.link navigate={~p"/admin/topics/#{topic}"}>Show</.link>
