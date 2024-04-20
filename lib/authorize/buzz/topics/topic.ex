@@ -9,7 +9,7 @@ defmodule Authorize.Buzz.Topics.Topic do
   schema "topics" do
     field :title, :string
 
-    has_many :topic_members, TopicMember
+    has_many :topic_members, TopicMember, on_delete: :delete_all
     has_many :members, through: [:topic_members, :member]
 
     timestamps(type: :utc_datetime)

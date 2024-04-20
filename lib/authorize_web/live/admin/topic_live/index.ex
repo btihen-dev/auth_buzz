@@ -26,7 +26,7 @@ defmodule AuthorizeWeb.Admin.TopicLive.Index do
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Topic")
-    |> assign(:topic, %Topic{})
+    |> assign(:topic, Topics.new_topic())
   end
 
   defp apply_action(socket, :index, _params) do
@@ -36,7 +36,7 @@ defmodule AuthorizeWeb.Admin.TopicLive.Index do
   end
 
   @impl true
-  def handle_info({AuthorizeWeb.Buzz.TopicLive.FormComponent, {:saved, topic}}, socket) do
+  def handle_info({AuthorizeWeb.Admin.TopicLive.FormComponent, {:saved, topic}}, socket) do
     {:noreply, stream_insert(socket, :topics, topic)}
   end
 

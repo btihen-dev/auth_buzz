@@ -50,7 +50,6 @@ defmodule AuthorizeWeb.Admin.TopicLive.FormComponent do
     topic_params = Map.get(params, "topic")
     member_ids = Map.get(params, "members") || []
     params = Map.put(topic_params, "member_ids", member_ids)
-    IO.inspect(params, label: "handle validate params")
 
     changeset =
       socket.assigns.topic
@@ -64,14 +63,15 @@ defmodule AuthorizeWeb.Admin.TopicLive.FormComponent do
     topic_params = Map.get(params, "topic")
     member_ids = Map.get(params, "members") || []
     params = Map.put(topic_params, "member_ids", member_ids)
-    IO.inspect(params, label: "handle validate params")
 
     save_topic(socket, socket.assigns.action, params)
   end
 
   defp save_topic(socket, :edit, params) do
     IO.inspect(params, label: "save_topic params")
-    case Topics.update_topic(socket.assigns.topic, params) do
+    saved_topic = Topics.update_topic(socket.assigns.topic, params)
+
+    case saved_topic do
       {:ok, topic} ->
         notify_parent({:saved, topic})
 
@@ -86,7 +86,9 @@ defmodule AuthorizeWeb.Admin.TopicLive.FormComponent do
   end
 
   defp save_topic(socket, :new, params) do
-    case Topics.create_topic(params) do
+    new_topic = Topics.create_topic(params)
+
+    case new_topic do
       {:ok, topic} ->
         notify_parent({:saved, topic})
 

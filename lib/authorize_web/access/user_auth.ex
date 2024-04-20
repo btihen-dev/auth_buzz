@@ -225,9 +225,6 @@ defmodule AuthorizeWeb.Access.UserAuth do
   end
 
   def require_admin_user(conn, _opts) do
-    IO.inspect(conn.assigns)
-    IO.inspect(conn.assigns.current_user)
-
     if Authorize.Core.Accounts.User.admin?(conn.assigns.current_user) do
       conn
     else
